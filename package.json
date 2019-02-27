@@ -1,0 +1,17 @@
+{
+	"name": "koa-demo",
+	"version": "0.0.1",
+	"requires": true,
+	"description": "a simple koa demo",
+	"author": "vansteve911",
+	"dependencies": {
+		"koa": "2.7.0",
+		"koa-router": "7.4.0",
+		"koa-body": "4.0.8",
+		"winston": "3.2.1"
+	},
+	"scripts": {
+		"build": "npm install && mkdir -p log",
+		"start": "node app.js"
+	}
+}

@@ -6,9 +6,10 @@ const userService = require('./service/userService')
 router.get('/', (ctx, next) => {
 	ctx.body = 'hello world'
 })
-router.post('/register', (ctx, next) => {
+router.post('/register', async function(ctx, next) {
 	let regInfo = ctx.request.body
-	ctx.body = apiResult(userService.register(regInfo))
+	let result = await userService.register(regInfo)
+	ctx.body = apiResult(result)
 })
 
 module.exports = router

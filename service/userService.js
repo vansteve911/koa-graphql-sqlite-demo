@@ -15,6 +15,9 @@ module.exports = {
 		}
 		let pwHash = md5Hash(regInfo.password)
 		return {email: regInfo.email, password: pwHash}
+	},
+	get(query) {
+		return 
 	}
 }
 	

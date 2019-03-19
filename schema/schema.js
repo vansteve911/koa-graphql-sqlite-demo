@@ -12,9 +12,9 @@ const {
 
 const userStorage = require('../data/model/user')
 const articleStorage = require('../data/model/article')
-const dataAdaptorBinder = require('../data/storageManager')
-dataAdaptorBinder.bind(userStorage)
-dataAdaptorBinder.bind(articleStorage)
+const storageManager = require('../data/storageManager')()
+storageManager.bind(userStorage)
+storageManager.bind(articleStorage)
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -32,7 +32,7 @@ const userType = new GraphQLObjectType({
       articles: {
         type: GraphQLList(articleType),
         resolve(user) {
-          return dataAdaptorBinder.find('Article').getList(user, {userId: user.id})
+          return storageManager.find('Article').getList(user, {userId: user.id})
         }
       }
     }
@@ -57,7 +57,7 @@ const articleType = new GraphQLObjectType({
         type: userType,
         description: 'article user',
         resolve(article) {
-          return dataAdaptorBinder.find('User').getOne(article, {id: article.userId})
+          return storageManager.find('User').getOne(article, {id: article.userId})
         }
       }
     }
@@ -74,7 +74,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: dataAdaptorBinder.find('User').getOne
+      resolve: storageManager.find('User').getOne
     },
     article: {
       type: articleType,
@@ -83,7 +83,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: dataAdaptorBinder.find('Article').getOne
+      resolve: storageManager.find('Article').getOne
     },
     users: {
       type: new GraphQLList(userType),
@@ -92,7 +92,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: dataAdaptorBinder.find('User').getList
+      resolve: storageManager.find('User').getList
     },
     articles: {
       type: new GraphQLList(articleType),
@@ -101,7 +101,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: dataAdaptorBinder.find('Article').getList
+      resolve: storageManager.find('Article').getList
     },
   }
 })
@@ -136,7 +136,6 @@ query {
     id,
     title,
     user {
-      id,
       name
     }
   }

@@ -5,7 +5,7 @@ function checkFunctionExists(func, message) {
   assert(func instanceof Function, message)
 }
 
-function DataAdaptorBinder() {
+function StorageManager() {
   const adaptors = {}
   const self = this
 
@@ -55,4 +55,4 @@ function DataAdaptorBinder() {
   }
 }
 
-module.exports = new DataAdaptorBinder()
+module.exports = StorageManager

@@ -8,8 +8,13 @@ const data = [
   },
   {
     'id': '2',
-    'name': 'Hi boy!',
+    'title': 'Knowledge is power',
     'userId': '2'
+  },
+  {
+    'id': '3',
+    'title': 'Ask what you can do for your country',
+    'userId': '1'
   }
 ]
 

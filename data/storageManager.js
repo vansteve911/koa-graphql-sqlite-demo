@@ -17,55 +17,29 @@ function DataAdaptorBinder() {
     const rowToData = resolver.rowToData || (x => x)
     const dataToRow = resolver.dataToRow || (x => x)
     adaptors[name] = {
-      // sync functions
-      getOne(id) {
+      getOne: async function(root, {id}) {
         checkFunctionExists(resolver.getOne, 'not supported')
-        return rowToData(resolver.getOne(id))
-      },
-      getList(query) {
-        checkFunctionExists(resolver.getList, 'not supported')
-        return resolver.getList(query)
-          .then(rowToData) // TODO difference sync & async 
-      },
-      add(data) {
-        checkFunctionExists(resolver.add, 'not supported')
-        let newRow = dataToRow(data)
-        let result = resolver.add(newRow)
-        return Object.assign(rowToData(result), data)
-      },
-      modify(data) {
-        checkFunctionExists(resolver.modify, 'not supported')
-        let row = dataToRow(data)
-        return resolver.modify(row)
-      },
-      delete(query) {
-        checkFunctionExists(resolver.delete, 'not supported')
-        return resolver.delete(query)
-      },
-      // async functions
-      getOneAsync: async function(id) {
-        checkFunctionExists(resolver.getOneAsync, 'not supported')
-        let result = await resolver.getOneAsync(id)
+        let result = await resolver.getOne(id)
         return rowToData(result)
       },
-      getListAsync: async function(query) {
-        checkFunctionExists(resolver.getListAsync, 'not supported')
-        let result = await resolver.getListAsync(query)
+      getList: async function(root, query) {
+        checkFunctionExists(resolver.getList, 'not supported')
+        let result = await resolver.getList(query)
         return result.map(rowToData)
       },
-      addAsync: async function(data) {
-        checkFunctionExists(resolver.addAsync, 'not supported')
+      add: async function(root, data) {
+        checkFunctionExists(resolver.add, 'not supported')
         let newRow = dataToRow(data)
-        return await resolver.addAsync(newRow)
+        return await resolver.add(newRow)
       },
-      modifyAsync: async function(data) {
-        checkFunctionExists(resolver.modifyAsync, 'not supported')
+      modify: async function(root, data) {
+        checkFunctionExists(resolver.modify, 'not supported')
         let row = dataToRow(data)
-        return await resolver.modifyAsync(row)
+        return await resolver.modify(row)
       },
-      deleteAsync: async function(query) {
-        checkFunctionExists(resolver.deleteAsync, 'not supported')
-        return await resolver.deleteAsync(query)
+      delete: async function(root, query) {
+        checkFunctionExists(resolver.delete, 'not supported')
+        return await resolver.delete(query)
       }
     }
     return self

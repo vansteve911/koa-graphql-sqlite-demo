@@ -15,11 +15,11 @@ function LocalDataStorage(localData, meta) {
 
   return {
     name: meta.name,
-    getOne(id) {
+    getOne: async(id) => {
       let result = storage[id]
       return result
     },
-    getList(query) {
+    getList: async(query) => {
       let key = Object.keys(query).find(k => validKeys.has(k))
       if (key) {
         let value = query[key]

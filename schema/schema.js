@@ -10,11 +10,7 @@ const {
   buildSchema
 } = require('graphql')
 
-const userStorage = require('../data/model/user')
-const articleStorage = require('../data/model/article')
-const storageManager = require('../data/storageManager')()
-storageManager.bind(userStorage)
-storageManager.bind(articleStorage)
+const resolvers = require('./resolvers')
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -32,7 +28,7 @@ const userType = new GraphQLObjectType({
       articles: {
         type: GraphQLList(articleType),
         resolve(user) {
-          return storageManager.find('Article').getList(user, {userId: user.id})
+          return resolvers.article.getList(user, {userId: user.id})
         }
       }
     }
@@ -57,7 +53,7 @@ const articleType = new GraphQLObjectType({
         type: userType,
         description: 'article user',
         resolve(article) {
-          return storageManager.find('User').getOne(article, {id: article.userId})
+          return resolvers.user.getOne(article, {id: article.userId})
         }
       }
     }
@@ -74,7 +70,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: storageManager.find('User').getOne
+      resolve: resolvers.user.getOne
     },
     article: {
       type: articleType,
@@ -83,7 +79,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: storageManager.find('Article').getOne
+      resolve: resolvers.article.getOne
     },
     users: {
       type: new GraphQLList(userType),
@@ -92,7 +88,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: storageManager.find('User').getList
+      resolve: resolvers.user.getList
     },
     articles: {
       type: new GraphQLList(articleType),
@@ -101,7 +97,7 @@ const queryType = new GraphQLObjectType({
           type: GraphQLString
         }
       },
-      resolve: storageManager.find('Article').getList
+      resolve: resolvers.article.getList
     },
   }
 })

@@ -1,4 +1,4 @@
-const LocalDataStorage = require('../localDataStorage')
+const LocalDataStorage = require('../storage/localDataStorage')
 
 const data = [
   {
@@ -19,7 +19,6 @@ const data = [
 ]
 
 module.exports = new LocalDataStorage(data, {
-  name: 'Article',
   primaryKey: 'id',
   keys: ['id', 'name', 'userId']
 })

@@ -1,30 +1,9 @@
-function fieldMapper() {
-  // TODO dataRow => fields
-}
-// query
-function getOne({id}) {
+const bindStorage = require('../storage/bindStorage')
 
-}
-
-function getList(queryMap) {
-
-}
-
-// mutation
-function add(data) {
-  // return added data record if success
-}
-
-function modify(id, data) {
-  // return modified data record if success
-}
-
-
-
+const userStorage = require('../data/user')
+const articleStorage = require('../data/article')
 
 module.exports = {
-  user: () => {
-    // TODO
-    return null
-  }
+  user: bindStorage(userStorage),
+  article: bindStorage(articleStorage)
 }

@@ -1,8 +1,7 @@
 const assert = require('assert')
 
-function LocalDataStorage(localData, meta) {
+module.exports = function (localData, meta) {
   assert(localData instanceof Array, 'invalid localData')
-  assert(meta.name, 'meta.name is required')
   assert(meta.primaryKey, 'meta.primaryKey is required')
   assert(meta.keys && meta.keys instanceof Array, 'meta.keys should be a list')
 
@@ -14,10 +13,8 @@ function LocalDataStorage(localData, meta) {
   const validKeys = new Set(meta.keys)
 
   return {
-    name: meta.name,
     getOne: async(id) => {
-      let result = storage[id]
-      return result
+      return storage[id]
     },
     getList: async(query) => {
       let key = Object.keys(query).find(k => validKeys.has(k))
@@ -33,5 +30,3 @@ function LocalDataStorage(localData, meta) {
     }
   }
 }
-
-module.exports = LocalDataStorage

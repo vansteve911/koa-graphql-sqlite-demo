@@ -9,10 +9,12 @@
 		"koa-router": "7.4.0",
 		"koa-body": "4.0.8",
 		"winston": "3.2.1",
+		"knex": "^0.8.6",
+		"sqlite3": "^3.1.0",
 		"graphql": "latest"
 	},
 	"scripts": {
 		"build": "npm install && mkdir -p log",
-		"start": "node app.js"
+		"start": "node index.js"
 	}
 }

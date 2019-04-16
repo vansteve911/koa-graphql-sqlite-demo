@@ -26,24 +26,40 @@ const SingleDataFileStorage = function(file, {serializer, deserializer}) {
       return loadFile(file, deserializer)
     },
     add: async(data) => {
-      return await updateFile(file, data, serializer)
+      return updateFile(file, data, serializer)
     },
     modify: async({updates}) => {
       if (!updates) {
         throw Error('nothing to be updated')
       }
-      let data = await loadFile(file, deserializer)
+      let data = loadFile(file, deserializer)
       Object.assign(data, updates)
-      return await updateFile(file, data, serializer)
+      return updateFile(file, data, serializer)
     }
   }
 }
 
-const MultiDataFileStorage = function(file, {serializer, deserializer}) {
-  // return {
-  //   getOne:
-  // }
-  // TODO 
+const MultiDataFileStorage = function(file, {serializer, deserializer, primaryKey}) {
+  return {
+    getOne: async(id) => {
+      let dataList = await loadFile(file, deserializer)
+      return dataList.find(item => item[primaryKey] == id)
+    },
+    add: async(data) => {
+      let dataList = await loadFile(file, deserializer)
+      dataList.push(data)
+      return await updateFile(file, data, serializer)
+    },
+    modify: async({id, updates}) => {
+      // TODO 
+      // if (!updates) {
+      //   throw Error('nothing to be updated')
+      // }
+      // let data = await loadFile(file, deserializer)
+      // Object.assign(data, updates)
+      // return await updateFile(file, data, serializer)
+    }
+  }
 }
 
 // test codes
